@@ -1,16 +1,16 @@
-import { getHTML, getData } from './lib/scraper';
+import express from 'express';
+import { getCount } from './lib/scraper';
+import './lib/cron';
 
-// const test = 'https://wispamulet.github.io/js30-practice/';
-const twUrl = 'https://twitter.com/wesbos';
-const igUrl = 'https://instagram.com/wesbos';
-const ngaUrl = 'http://nga.178.com/';
+const app = express();
 
-async function go() {
-  const html = await getHTML(ngaUrl);
-  const { onlineCount, membersCount, visitorsCount } = await getData(html);
-  console.log(
-    `There are ${onlineCount} users online, ${membersCount} members and ${visitorsCount} visitors.`
-  );
-}
+app.get('/scrape', async (req, res, next) => {
+  console.log('Scraping!!!');
+  const count = await getCount();
 
-go();
+  res.json(count);
+});
+
+const listener = app.listen(2093, () => {
+  console.log(`App is running on PORT ${listener.address().port}`);
+});
