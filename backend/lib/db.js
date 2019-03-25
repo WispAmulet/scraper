@@ -5,9 +5,12 @@ import FileSync from 'lowdb/adapters/FileSync';
 const adapter = new FileSync('db.json');
 const db = low(adapter);
 
-db.defaults({ online: [], members: [], visitors: [] }).write();
+// * Clear everything!
 // db.unset('online').write();
 // db.unset('members').write();
 // db.unset('visitors').write();
+
+// Set default values
+db.defaults({ online: [], members: [], visitors: [] }).write();
 
 export default db;
